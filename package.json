@@ -1,0 +1,25 @@
+{
+  "name": "@architect/env",
+  "version": "0.0.1",
+  "description": "Manage your Architect app's environment variables",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/architect/env.git"
+  },
+  "keywords": [],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/architect/env/issues"
+  },
+  "homepage": "https://github.com/architect/env#readme",
+  "dependencies": {
+    "@architect/utils": "^1.0.12",
+    "aws-sdk": "^2.478.0",
+    "chalk": "^2.4.2",
+    "run-series": "^1.1.8"
+  }
+}
