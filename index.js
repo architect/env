@@ -1,14 +1,7 @@
 let series = require('run-series')
-let readArc = require('@architect/utils/read-arc')
-
-// possible commands
-let _all = require('./src/_all')
-let _add = require('./src/_add')
-let _remove = require('./src/_remove')
-let _printer = require('./src/_printer')
+let utils = require('@architect/utils')
 
 module.exports = function env(opts, callback) {
-
   let promise
   if (!callback) {
     promise = new Promise(function ugh(res, rej) {
@@ -19,7 +12,7 @@ module.exports = function env(opts, callback) {
     })
   }
 
-  let {arc} = readArc()
+  let {arc} = utils.readArc()
   let appname = arc.app[0]
   let envs = ['testing', 'staging', 'production']
 
@@ -33,22 +26,16 @@ module.exports = function env(opts, callback) {
 
   if (is.all) {
     // npx env ............................ all
-    _all(appname, function(err, result) {
-      _printer(err, result)
-      callback()
-    })
+    printAll(appname, callback)
   }
   else if (is.add) {
     // npx env testing FOOBAZ somevalue ... put
     series([
-      function removes(callback) {
-        _add(appname, opts, callback)
+      function adds(callback) {
+        module.exports.add(appname, opts, callback)
       },
       function prints(callback) {
-        _all(appname, function(err, result) {
-          _printer(err, result)
-          callback()
-        })
+        printAll(appname, callback)
       },
     ], callback)
   }
@@ -57,13 +44,10 @@ module.exports = function env(opts, callback) {
     // remove/print all/verify all
     series([
       function removes(callback) {
-        _remove(appname, opts, callback)
+        module.exports.remove(appname, opts, callback)
       },
       function prints(callback) {
-        _all(appname, function(err, result) {
-          _printer(err, result)
-          callback()
-        })
+        printAll(appname, callback)
       },
     ], callback)
   }
@@ -72,4 +56,17 @@ module.exports = function env(opts, callback) {
   }
 
   return promise
+}
+
+// possible commands
+module.exports.all = require('./src/_all')
+module.exports.add = require('./src/_add')
+module.exports.remove = require('./src/_remove')
+module.exports.printer = require('./src/_printer')
+
+function printAll(appname, callback) {
+  module.exports.all(appname, function(err, result) {
+    module.exports.printer(err, result)
+    callback()
+  })
 }
