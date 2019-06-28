@@ -26,7 +26,7 @@ module.exports = function env(opts, callback) {
 
   if (is.all) {
     // npx env ............................ all
-    printAll(appname, callback)
+    printAndWriteAll(appname, callback)
   }
   else if (is.add) {
     // npx env testing FOOBAZ somevalue ... put
@@ -35,7 +35,7 @@ module.exports = function env(opts, callback) {
         module.exports.add(appname, opts, callback)
       },
       function prints(callback) {
-        printAll(appname, callback)
+        printAndWriteAll(appname, callback)
       },
     ], callback)
   }
@@ -47,7 +47,7 @@ module.exports = function env(opts, callback) {
         module.exports.remove(appname, opts, callback)
       },
       function prints(callback) {
-        printAll(appname, callback)
+        printAndWriteAll(appname, callback)
       },
     ], callback)
   }
@@ -59,14 +59,16 @@ module.exports = function env(opts, callback) {
 }
 
 // possible commands
-module.exports.all = require('./src/_all')
 module.exports.add = require('./src/_add')
+module.exports.all = require('./src/_all')
+module.exports.print = require('./src/_print')
 module.exports.remove = require('./src/_remove')
-module.exports.printer = require('./src/_printer')
+module.exports.write = require('./src/_write')
 
-function printAll(appname, callback) {
+function printAndWriteAll(appname, callback) {
   module.exports.all(appname, function(err, result) {
-    module.exports.printer(err, result)
+    module.exports.write(result)
+    module.exports.print(err, result)
     callback()
   })
 }
