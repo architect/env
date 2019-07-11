@@ -1,4 +1,4 @@
-# env [![Travis Build Status](https://travis-ci.com/architect/env.svg?branch=master)](https://travis-ci.com/architect/env) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/5b80s30lya7ge87c/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/env/branch/master)
+# `@architect/env` [![Travis Build Status](https://travis-ci.com/architect/env.svg?branch=master)](https://travis-ci.com/architect/env) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/5b80s30lya7ge87c/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/env/branch/master) [![codecov](https://codecov.io/gh/architect/env/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/env)
 
 [@architect/env][npm] reads and writes environment variables that are made immediately
 available to all deployed Functions. Sensitive configuration data, such as API
