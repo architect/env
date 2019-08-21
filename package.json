@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/architect/env#readme",
   "dependencies": {
-    "@architect/utils": "^1.0.12",
+    "@architect/utils": "^1.3.2",
     "aws-sdk": "^2.478.0",
     "chalk": "^2.4.2",
     "run-series": "^1.1.8"
@@ -30,8 +30,8 @@
     "codecov": "^3.5.0",
     "eslint": "^5.16.0",
     "nyc": "^14.1.1",
-    "sinon": "^7.3.2",
+    "sinon": "^7.4.1",
     "tap-spec": "^5.0.0",
-    "tape": "^4.10.2"
+    "tape": "^4.11.0"
   }
 }
