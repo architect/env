@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 let series = require('run-series')
 let utils = require('@architect/utils')
 
