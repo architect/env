@@ -1,4 +1,4 @@
-# env [![Travis Build Status](https://travis-ci.com/architect/env.svg?branch=master)](https://travis-ci.com/architect/env) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/5b80s30lya7ge87c/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/env/branch/master)
+# `@architect/env` [![Travis Build Status](https://travis-ci.com/architect/env.svg?branch=master)](https://travis-ci.com/architect/env) [![Appveyor Build Status](https://ci.appveyor.com/api/projects/status/5b80s30lya7ge87c/branch/master?svg=true)](https://ci.appveyor.com/project/ArchitectCI/env/branch/master) [![codecov](https://codecov.io/gh/architect/env/branch/master/graph/badge.svg)](https://codecov.io/gh/architect/env)
 
 [@architect/env][npm] reads and writes environment variables that are made immediately
 available to all deployed Functions. Sensitive configuration data, such as API
@@ -26,8 +26,8 @@ Reads, writes and/or prints environment variables based on the contents of `opts
 
 `opts` is an array. If no callback is provided, returns a Promise.
 
-If `opts` is the empty array, invokes [`env.all`][all] and then prints the
-results via [`env.printer`][printer].
+If `opts` is the empty array, invokes [`env.all`][all], prints the results via
+[`env.print`][print] and writes them to disk using [`env.write`][write].
 
 if `opts` is an array of three elements and the first element is one of the
 strings `testing`, `staging` or `production`, will invoke [`env.add`][add].
@@ -38,7 +38,7 @@ strings `remove`, `--remove` or `-r`, will invoke [`env.remove`][remove].
 ## `env.all(appname, callback)`
 
 Queries SSM's [`getParametersByPath`][getparams], providing the arc `appname`
-as the `Path` parameter. 
+as the `Path` parameter.
 
 ## `env.add(appname, opts, callback)`
 
@@ -66,13 +66,19 @@ Removes an environment variable from the system using SSM's [`deleteParameter`][
 3. The third element must be the environment variable value. The value must be
    alphanumeric.
 
-## `env.printer(error, result)`
+## `env.print(error, result)`
 
 Pretty-prints environment variables and errors.
 
+## `env.write(result)`
+
+Writes `result` into an `.arc-env` file in the current working directory in a
+format that lists out all environment variables per `testing`, `staging` and
+`production` environments.
+
 [npm]: https://www.npmjs.com/package/@architect/env
 [all]: #envallappnamecallback
-[printer]: #envprintererrorresult
+[print]: #envprinterrorresult
 [add]: #envaddappnameoptscallback
 [remove]: #envremoveappnameoptscallback
 [paramstore]: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html
