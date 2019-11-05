@@ -7,7 +7,8 @@
     "test": "npm run lint && npm run coverage",
     "test:unit": "tape test/*-tests.js | tap-spec",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test:unit",
-    "lint": "eslint . --fix --ignore-pattern node_modules"
+    "lint": "eslint . --fix --ignore-pattern node_modules",
+    "rc": "npm version prerelease --preid RC"
   },
   "repository": {
     "type": "git",
