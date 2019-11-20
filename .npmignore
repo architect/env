@@ -1,7 +1,7 @@
-.git
 .eslintrc.js
-test/
-.travis.yml
-appveyor.yml
+.git/
+.github/
+.nyc_output/
 codecov.yaml
 coverage/
+test/
