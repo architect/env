@@ -1,5 +1,5 @@
 let {updater} = require('@architect/utils')
-let update = updater('Deploy')
+let update = updater('Env')
 
 module.exports = function validate(/*opts*/) {
   try {
