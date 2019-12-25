@@ -1,6 +1,10 @@
 let aws = require('aws-sdk')
+let validate = require('./_validate')
 
 module.exports = function _all(appname, callback) {
+
+  // Validate for expected env and check for potential creds issues
+  validate()
 
   let ssm = new aws.SSM({region: process.env.AWS_REGION})
 
