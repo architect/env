@@ -27,7 +27,7 @@
     "run-series": "^1.1.8"
   },
   "devDependencies": {
-    "aws-sdk-mock": "^4.5.0",
+    "aws-sdk-mock": "^5.0.0",
     "codecov": "^3.6.1",
     "eslint": "^6.6.0",
     "nyc": "^14.1.1",
