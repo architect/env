@@ -1,11 +1,7 @@
 let aws = require('aws-sdk')
 let isReserved = require('./_is-reserved')
-let validate = require('./_validate')
 
 module.exports = function _put(appname, params, callback) {
-
-  // Validate for expected env and check for potential creds issues
-  validate()
 
   // only the following namespaces allowed
   let allowed = [

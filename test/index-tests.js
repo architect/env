@@ -2,6 +2,7 @@ let test = require('tape')
 let sinon = require('sinon')
 let utils = require('@architect/utils')
 let env = require('../')
+process.env.AWS_REGION = 'us-west-1'
 
 test('env errors if provided an unrecognized command', t=> {
   t.plan(1)
@@ -80,5 +81,6 @@ test('env invokes remove, all, write and print submodules when run with three ar
       t.ok(fakeRemove.calledOnce, '`remove` invoked once')
     }
     sinon.restore()
+    delete process.env.AWS_REGION
   })
 });
