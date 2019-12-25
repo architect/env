@@ -10,7 +10,7 @@ module.exports = function validate(/*opts*/) {
       throw Error('@aws region / AWS_REGION must be configured')
   }
   catch(e) {
-    update.error(`Failed to deploy, ${e.message}`)
+    update.error(`Failed to update environment, ${e.message}`)
     process.exit(1)
   }
 }
