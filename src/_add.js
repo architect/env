@@ -3,7 +3,7 @@ let isReserved = require('./_is-reserved')
 
 module.exports = function _put(appname, params, callback) {
 
-  // only teh following namespaces allowed
+  // only the following namespaces allowed
   let allowed = [
     'testing',
     'staging',

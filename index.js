@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+let validate = require('./src/_validate')
 let series = require('run-series')
 let utils = require('@architect/utils')
 
@@ -13,6 +14,8 @@ module.exports = function env(opts, callback) {
     })
   }
 
+  // Validate for expected env and check for potential creds issues
+  validate()
   let {arc} = utils.readArc()
   let appname = arc.app[0]
   let envs = ['testing', 'staging', 'production']
