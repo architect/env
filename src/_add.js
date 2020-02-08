@@ -19,7 +19,7 @@ module.exports = function _put(appname, params, callback) {
   let valid = {
     ns: allowed.includes(ns),
     key: /[A-Z|_]+/.test(key) && (ns === 'testing'? true : !isReserved(key)),
-    val: /[a-z|0-9]+/.test(val),
+    val: /[\w\d\\/?."\-_:]+/.test(val),
   }
 
   // blow up if something bad happens otherwise write the param
