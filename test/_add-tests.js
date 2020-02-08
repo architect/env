@@ -41,7 +41,7 @@ test('_add should not callback with error with valid names', t=> {
       add('fakeappname', v, function done(err) {
         if (err) t.fail(err, 'got an error when valid value provided')
         else {
-          t.ok('no error returned when valid value provided')
+          t.pass('no error returned when valid value provided')
           callback()
         }
       })
