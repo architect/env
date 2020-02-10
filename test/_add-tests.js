@@ -29,6 +29,8 @@ test('_add should callback with error if invalid value provided', t=> {
 })
 
 test('_add should not callback with error with valid names', t=> {
+  let fake = sinon.fake.yields()
+  aws.mock('SSM', 'putParameter', fake)
   let valids = [
     ['testing', 'FOO', 'http://foo.com/?bar=baz'],
     ['testing', 'FOO', 'BAR'],
@@ -47,6 +49,8 @@ test('_add should not callback with error with valid names', t=> {
       })
     }
   }))
+  sinon.restore()
+  aws.restore('SSM')
 })
 
 test('_add should callback with error if SSM errors', t=> {
@@ -57,4 +61,6 @@ test('_add should callback with error if SSM errors', t=> {
     if (err) t.ok(err, 'got an error when SSM explodes')
     else t.fail('no error returned when SSM explodes')
   })
+  // sinon.restore()
+  aws.restore('SSM')
 })
