@@ -61,6 +61,5 @@ test('_add should callback with error if SSM errors', t=> {
     if (err) t.ok(err, 'got an error when SSM explodes')
     else t.fail('no error returned when SSM explodes')
   })
-  // sinon.restore()
   aws.restore('SSM')
 })
