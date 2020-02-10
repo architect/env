@@ -22,13 +22,13 @@
   "homepage": "https://github.com/architect/env#readme",
   "dependencies": {
     "@architect/utils": "^1.4.7",
-    "aws-sdk": "^2.612.0",
+    "aws-sdk": "^2.615.0",
     "chalk": "^3.0.0",
     "run-series": "^1.1.8"
   },
   "devDependencies": {
     "aws-sdk-mock": "^5.0.0",
-    "codecov": "^3.6.4",
+    "codecov": "^3.6.5",
     "eslint": "^6.8.0",
     "nyc": "^15.0.0",
     "sinon": "^8.1.1",
