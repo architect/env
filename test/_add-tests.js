@@ -20,22 +20,16 @@ test('_add should callback with error if invalid key provided', t=> {
   })
 })
 
-test('_add should callback with error if invalid value provided', t=> {
-  t.plan(1)
-  add('fakeappname', ['testing', 'FOO', '@$$'], function done(err) {
-    if (err) t.ok(err, 'got an error when invalid value provided')
-    else t.fail('no error returned when invalid value provided')
-  })
-})
-
-test('_add should not callback with error with valid names', t=> {
+test('_add should treat all provided values as valid', t=> {
   let fake = sinon.fake.yields()
   aws.mock('SSM', 'putParameter', fake)
   let valids = [
     ['testing', 'FOO', 'http://foo.com/?bar=baz'],
     ['testing', 'FOO', 'BAR'],
     ['testing', 'FOO', `"foo-bar_baz"`],
-    ['testing', 'FOO', `"foo.bar"`]
+    ['testing', 'FOO', `"foo.bar"`],
+    ['testing', 'FOO', '[${foo}]'],
+    ['testing', 'FOO', '(%)^{}idk!']
   ]
   t.plan(valids.length)
   series(valids.map(v => {
