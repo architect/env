@@ -18,8 +18,7 @@ module.exports = function _put(appname, params, callback) {
   // the state we expect them in
   let valid = {
     ns: allowed.includes(ns),
-    key: /[A-Z|_]+/.test(key) && (ns === 'testing'? true : !isReserved(key)),
-    val: /[a-z|0-9]+/.test(val),
+    key: /[A-Z|_]+/.test(key) && (ns === 'testing'? true : !isReserved(key))
   }
 
   // blow up if something bad happens otherwise write the param
@@ -28,9 +27,6 @@ module.exports = function _put(appname, params, callback) {
   }
   else if (!valid.key) {
     callback(Error('invalid argument, key must be all caps (and can contain underscores)'))
-  }
-  else if (!valid.val) {
-    callback(Error('invalid argument, value must be alphanumeric'))
   }
   else {
     let ssm = new aws.SSM({region: process.env.AWS_REGION})
