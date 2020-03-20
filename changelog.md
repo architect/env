@@ -2,6 +2,14 @@
 
 ---
 
+## [1.0.8] 2020-03-19
+
+### Changed
+
+- Updated dependencies
+
+---
+
 ## [1.0.7] 2020-02-10
 
 ### Changed
