@@ -22,7 +22,7 @@
   "homepage": "https://github.com/architect/env#readme",
   "dependencies": {
     "@architect/utils": "~1.5.1",
-    "aws-sdk": "~2.644.0",
+    "aws-sdk": "~2.646.0",
     "chalk": "~3.0.0",
     "run-series": "~1.1.8"
   },
