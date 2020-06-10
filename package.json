@@ -23,7 +23,7 @@
   "dependencies": {
     "@architect/utils": "~1.5.1",
     "aws-sdk": "~2.644.0",
-    "chalk": "~4.0.0",
+    "chalk": "~4.1.0",
     "run-series": "~1.1.8"
   },
   "devDependencies": {
