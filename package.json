@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && npm run coverage",
-    "test:unit": "tape test/*-tests.js | tap-spec",
+    "test:unit": "tape 'test/**/*-tests.js' | tap-spec",
     "coverage": "nyc --reporter=lcov --reporter=text-summary npm run test:unit",
     "lint": "eslint . --fix --ignore-pattern node_modules",
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node" : ">=10"
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
