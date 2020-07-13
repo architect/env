@@ -14,7 +14,7 @@ test('_write should write out env vars to a .arc-env file', t=> {
   ])
   let args = fake.lastCall.args
   t.ok(args[0].endsWith('.arc-env'), 'wrote to a file that ends in .arc-env')
-  t.ok(args[1].includes('@testing\none 1'), 'wrote testing env var to correct place in env file')
-  t.ok(args[1].includes('@staging\ntwo 2'), 'wrote staging env var to correct place in env file')
-  t.ok(args[1].includes('@production\nthree 3'), 'wrote production env var to correct place in env file')
+  t.ok(args[1].includes('@testing\none "1"'), 'wrote testing env var to correct place in env file')
+  t.ok(args[1].includes('@staging\ntwo "2"'), 'wrote staging env var to correct place in env file')
+  t.ok(args[1].includes('@production\nthree "3"'), 'wrote production env var to correct place in env file')
 });

@@ -4,13 +4,13 @@ let path = require('path')
 module.exports = function write(result) {
   let testing = result
     .filter(e=> e.env === 'testing')
-    .map(v => `${v.name} ${v.value}`)
+    .map(v => `${v.name} "${v.value}"`)
   let staging = result
     .filter(e=> e.env === 'staging')
-    .map(v => `${v.name} ${v.value}`)
+    .map(v => `${v.name} "${v.value}"`)
   let production = result
     .filter(e=> e.env === 'production')
-    .map(v => `${v.name} ${v.value}`)
+    .map(v => `${v.name} "${v.value}"`)
 
   // write a local .arc-env
   let envPath = path.join(process.cwd(), '.arc-env')
