@@ -2,6 +2,22 @@
 
 ---
 
+## [1.0.12] 2020-07-15
+
+### Fixed
+
+- Only quote env vars with special chars
+
+---
+
+## [1.0.11] 2020-07-13
+
+### Fixed
+
+- Fixes .arc-env encoding of env vars with Architect-reserved characters
+
+---
+
 ## [1.0.10] 2020-03-24
 
 ### Changed
