@@ -6,7 +6,7 @@
 
 ### Fixed
 
-- Only quote env vars with special chars
+- Only quote env vars with special chars and floats
 
 ---
 

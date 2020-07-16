@@ -3,6 +3,9 @@ let path = require('path')
 
 module.exports = function write(result) {
   function maybeQuote (value) {
+    // lol JS string/number coersion
+    let isFloat = /^[\d]+\.?[\d]+$/
+    if (isFloat.test(value)) return `"${value}"`
     let hasSpecialChars = /[@#]/g
     return hasSpecialChars.test(value) ? `"${value}"` : value
   }
