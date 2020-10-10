@@ -1,7 +1,7 @@
 let aws = require('aws-sdk')
 let isReserved = require('./_is-reserved')
 
-module.exports = function _put(appname, params, callback) {
+module.exports = function _put (appname, params, callback) {
 
   // only the following namespaces allowed
   let allowed = [
@@ -28,11 +28,11 @@ module.exports = function _put(appname, params, callback) {
     callback(Error('invalid argument, key must be all caps (and can contain underscores)'))
   }
   else {
-    let ssm = new aws.SSM({region: process.env.AWS_REGION})
+    let ssm = new aws.SSM({ region: process.env.AWS_REGION })
     ssm.deleteParameter({
       Name: `/${appname}/${ns}/${key}`,
     },
-    function done(err) {
+    function done (err) {
       if (err) callback(err)
       else callback()
     })

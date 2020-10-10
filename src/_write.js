@@ -1,7 +1,7 @@
 let fs = require('fs')
 let path = require('path')
 
-module.exports = function write(result) {
+module.exports = function write (result) {
   function maybeQuote (value) {
     // lol JS string/number coersion
     let isFloat = /^[\d]+\.?[\d]+$/
@@ -10,13 +10,13 @@ module.exports = function write(result) {
     return hasSpecialChars.test(value) ? `"${value}"` : value
   }
   let testing = result
-    .filter(e=> e.env === 'testing')
+    .filter(e => e.env === 'testing')
     .map(v => `${v.name} ${maybeQuote(v.value)}`)
   let staging = result
-    .filter(e=> e.env === 'staging')
+    .filter(e => e.env === 'staging')
     .map(v => `${v.name} ${maybeQuote(v.value)}`)
   let production = result
-    .filter(e=> e.env === 'production')
+    .filter(e => e.env === 'production')
     .map(v => `${v.name} ${maybeQuote(v.value)}`)
 
   // write a local .arc-env

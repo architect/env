@@ -1,13 +1,13 @@
 let aws = require('aws-sdk')
 
-module.exports = function _all(appname, callback) {
+module.exports = function _all (appname, callback) {
 
-  let ssm = new aws.SSM({region: process.env.AWS_REGION})
+  let ssm = new aws.SSM({ region: process.env.AWS_REGION })
 
   // reset this every call..
   let result = []
 
-  function getSome(appname, NextToken, callback) {
+  function getSome (appname, NextToken, callback) {
     // base query to ssm
     let query = {
       Path: `/${appname}`,
@@ -20,13 +20,13 @@ module.exports = function _all(appname, callback) {
       query.NextToken = NextToken
     }
     // performs the query
-    ssm.getParametersByPath(query, function _query(err, data) {
+    ssm.getParametersByPath(query, function _query (err, data) {
       if (err) {
         callback(err)
       }
       else {
         // tidy up the response
-        result = result.concat(data.Parameters.map(function(param) {
+        result = result.concat(data.Parameters.map(function (param) {
           let bits = param.Name.split('/')
           return {
             app: appname,
@@ -47,7 +47,7 @@ module.exports = function _all(appname, callback) {
     })
   }
 
-  getSome(appname, false, function done(err, result) {
+  getSome(appname, false, function done (err, result) {
     if (err) callback(err)
     else {
       callback(null, result)

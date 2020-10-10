@@ -3,11 +3,11 @@ let validate = require('./src/_validate')
 let series = require('run-series')
 let { readArc } = require('@architect/utils')
 
-module.exports = function env(opts, callback) {
+module.exports = function env (opts, callback) {
   let promise
   if (!callback) {
-    promise = new Promise(function ugh(res, rej) {
-      callback = function errback(err, result) {
+    promise = new Promise(function ugh (res, rej) {
+      callback = function errback (err, result) {
         if (err) rej(err)
         else res(result)
       }
@@ -16,9 +16,9 @@ module.exports = function env(opts, callback) {
 
   // Validate for expected env and check for potential creds issues
   validate()
-  let {arc} = readArc()
+  let { arc } = readArc()
   let appname = arc.app[0]
-  let envs = ['testing', 'staging', 'production']
+  let envs = [ 'testing', 'staging', 'production' ]
 
   let is = {
     all:    opts.length === 0,
@@ -35,10 +35,10 @@ module.exports = function env(opts, callback) {
   else if (is.add) {
     // npx env testing FOOBAZ somevalue ... put
     series([
-      function adds(callback) {
+      function adds (callback) {
         module.exports.add(appname, opts, callback)
       },
-      function prints(callback) {
+      function prints (callback) {
         printAndWriteAll(appname, callback)
       },
     ], callback)
@@ -47,10 +47,10 @@ module.exports = function env(opts, callback) {
     // npx env remove testing FOOBAZ ...... remove
     // remove/print all/verify all
     series([
-      function removes(callback) {
+      function removes (callback) {
         module.exports.remove(appname, opts, callback)
       },
-      function prints(callback) {
+      function prints (callback) {
         printAndWriteAll(appname, callback)
       },
     ], callback)
@@ -69,8 +69,8 @@ module.exports.print = require('./src/_print')
 module.exports.remove = require('./src/_remove')
 module.exports.write = require('./src/_write')
 
-function printAndWriteAll(appname, callback) {
-  module.exports.all(appname, function(err, result) {
+function printAndWriteAll (appname, callback) {
+  module.exports.all(appname, function (err, result) {
     module.exports.write(result)
     module.exports.print(err, result)
     callback()
