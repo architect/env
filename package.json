@@ -1,6 +1,6 @@
 {
   "name": "@architect/env",
-  "version": "1.0.12",
+  "version": "1.0.13-RC.0",
   "description": "Manage your Architect app's environment variables",
   "main": "index.js",
   "scripts": {
