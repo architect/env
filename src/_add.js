@@ -23,10 +23,10 @@ module.exports = function _put (appname, params, callback) {
 
   // blow up if something bad happens otherwise write the param
   if (!valid.ns) {
-    callback(Error('invalid argument, namespace can only be one of: testing, staging or production'))
+    callback(Error('Invalid argument, namespace can only be one of: testing, staging or production'))
   }
   else if (!valid.key) {
-    callback(Error('invalid argument, key must be all caps (and can contain underscores)'))
+    callback(Error('Invalid argument, key must be all caps (and can contain underscores)'))
   }
   else {
     let ssm = new aws.SSM({ region: process.env.AWS_REGION })

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 let validate = require('./src/_validate')
 let series = require('run-series')
-let { readArc } = require('@architect/utils')
+let _inventory = require('@architect/inventory')
 
 module.exports = function env (opts, callback) {
   let promise
@@ -16,48 +16,54 @@ module.exports = function env (opts, callback) {
 
   // Validate for expected env and check for potential creds issues
   validate()
-  let { arc } = readArc()
-  let appname = arc.app[0]
-  let envs = [ 'testing', 'staging', 'production' ]
 
-  let is = {
-    all:    opts.length === 0,
-    add:    opts.length === 3 && envs.includes(opts[0]),
-    remove: opts.length === 3 && opts[0] === 'remove' ||
-            opts.length === 3 && opts[0] === '--remove' ||
-            opts.length === 3 && opts[0] === '-r',
-  }
+  _inventory({}, function (err, inventory) {
+    if (err) callback(err)
+    else {
+      let appname = inventory.inv.app
+      let envs = [ 'testing', 'staging', 'production' ]
 
-  if (is.all) {
-    // npx env ............................ all
-    printAndWriteAll(appname, callback)
-  }
-  else if (is.add) {
-    // npx env testing FOOBAZ somevalue ... put
-    series([
-      function adds (callback) {
-        module.exports.add(appname, opts, callback)
-      },
-      function prints (callback) {
+      let is = {
+        all:    opts.length === 0,
+        add:    opts.length === 3 && envs.includes(opts[0]),
+        remove: opts.length === 3 && opts[0] === 'remove' ||
+                opts.length === 3 && opts[0] === '--remove' ||
+                opts.length === 3 && opts[0] === '-r',
+      }
+
+      if (is.all) {
+        // npx env ............................ all
         printAndWriteAll(appname, callback)
-      },
-    ], callback)
-  }
-  else if (is.remove) {
-    // npx env remove testing FOOBAZ ...... remove
-    // remove/print all/verify all
-    series([
-      function removes (callback) {
-        module.exports.remove(appname, opts, callback)
-      },
-      function prints (callback) {
-        printAndWriteAll(appname, callback)
-      },
-    ], callback)
-  }
-  else {
-    callback(Error('invalid command'))
-  }
+      }
+      else if (is.add) {
+        // npx env testing FOOBAZ somevalue ... put
+        series([
+          function adds (callback) {
+            module.exports.add(appname, opts, callback)
+          },
+          function prints (callback) {
+            printAndWriteAll(appname, callback)
+          },
+        ], callback)
+      }
+      else if (is.remove) {
+        // npx env remove testing FOOBAZ ...... remove
+        // remove/print all/verify all
+        series([
+          function removes (callback) {
+            module.exports.remove(appname, opts, callback)
+          },
+          function prints (callback) {
+            printAndWriteAll(appname, callback)
+          },
+        ], callback)
+      }
+      else {
+        callback(Error('invalid command'))
+      }
+    }
+  })
+
 
   return promise
 }

@@ -24,19 +24,20 @@
   },
   "homepage": "https://github.com/architect/env#readme",
   "dependencies": {
-    "@architect/utils": "~1.5.1",
-    "aws-sdk": "~2.644.0",
+    "@architect/inventory": "~1.1.0-RC.10",
+    "@architect/utils": "~1.5.14",
+    "aws-sdk": "2.712.0",
     "chalk": "~4.1.0",
     "cross-env": "~7.0.2",
-    "run-series": "~1.1.8"
+    "run-series": "~1.1.9"
   },
   "devDependencies": {
     "@architect/eslint-config": "1.0.0",
     "aws-sdk-mock": "^5.1.0",
-    "codecov": "^3.6.5",
-    "eslint": "^7.0.0",
-    "nyc": "^15.0.0",
-    "sinon": "^9.0.1",
+    "codecov": "^3.8.1",
+    "eslint": "^7.13.0",
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.1",
     "tap-spec": "^5.0.0",
     "tape": "^5.0.1"
   },
