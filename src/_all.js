@@ -1,6 +1,6 @@
 let aws = require('aws-sdk')
 
-module.exports = function _all (appname, callback) {
+module.exports = function _all ({ appname }, callback) {
 
   let ssm = new aws.SSM({ region: process.env.AWS_REGION })
 
@@ -21,9 +21,7 @@ module.exports = function _all (appname, callback) {
     }
     // performs the query
     ssm.getParametersByPath(query, function _query (err, data) {
-      if (err) {
-        callback(err)
-      }
+      if (err) callback(err)
       else {
         // tidy up the response
         result = result.concat(data.Parameters.map(function (param) {
@@ -49,8 +47,6 @@ module.exports = function _all (appname, callback) {
 
   getSome(appname, false, function done (err, result) {
     if (err) callback(err)
-    else {
-      callback(null, result)
-    }
+    else callback(null, result)
   })
 }

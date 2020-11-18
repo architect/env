@@ -1,7 +1,7 @@
 let aws = require('aws-sdk')
 let isReserved = require('./_is-reserved')
 
-module.exports = function _put (appname, params, callback) {
+module.exports = function _add ({ appname, update }, params, callback) {
 
   // only the following namespaces allowed
   let allowed = [
@@ -23,12 +23,13 @@ module.exports = function _put (appname, params, callback) {
 
   // blow up if something bad happens otherwise write the param
   if (!valid.ns) {
-    callback(Error('Invalid argument, namespace can only be one of: testing, staging or production'))
+    callback(Error('Invalid argument, environment can only be one of: testing, staging, or production'))
   }
   else if (!valid.key) {
     callback(Error('Invalid argument, key must be all caps (and can contain underscores)'))
   }
   else {
+    update.start(`Adding ${key} to ${ns} environment`)
     let ssm = new aws.SSM({ region: process.env.AWS_REGION })
     ssm.putParameter({
       Name: `/${appname}/${ns}/${key}`,
@@ -37,8 +38,14 @@ module.exports = function _put (appname, params, callback) {
       Overwrite: true
     },
     function done (err) {
-      if (err) callback(err)
-      else callback()
+      if (err) {
+        update.cancel()
+        callback(err)
+      }
+      else {
+        update.done(`Added ${key} to ${ns} environment`)
+        callback()
+      }
     })
   }
 }
