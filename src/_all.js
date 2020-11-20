@@ -1,6 +1,6 @@
 let aws = require('aws-sdk')
 
-module.exports = function _all ({ appname }, callback) {
+module.exports = function _all ({ appname, update }, callback) {
 
   let ssm = new aws.SSM({ region: process.env.AWS_REGION })
 
@@ -45,8 +45,14 @@ module.exports = function _all ({ appname }, callback) {
     })
   }
 
+  update.start('Reading environment variables')
   getSome(appname, false, function done (err, result) {
     if (err) callback(err)
-    else callback(null, result)
+    else {
+      let envs = [ 'testing', 'staging', 'production' ]
+      let qty = result.filter(({ env }) => envs.includes(env)).length
+      update.done(`Total environment variables found: ${qty}`)
+      callback(null, result)
+    }
   })
 }

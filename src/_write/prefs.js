@@ -38,33 +38,30 @@ module.exports = function write ({ envVars, update }) {
     .filter(e => e.env === 'testing')
     .map(maybeQuote)
   let testing = testingVars.length
-    ? testingVars.join('\n  ')
-    : '# Add testing env vars with: arc env testing NAME value'
+    ? 'testing\n  ' + testingVars.join('\n  ')
+    : '# testing\n  # Add testing env vars with: arc env testing NAME value'
 
   let stagingVars = envVars
     .filter(e => e.env === 'staging')
     .map(maybeQuote)
   let staging = stagingVars.length
-    ? stagingVars.join('\n  ')
-    : '# Add staging env vars with: arc env staging NAME value'
+    ? 'staging\n  ' + stagingVars.join('\n  ')
+    : '# staging\n  # Add staging env vars with: arc env staging NAME value'
 
   let productionVars = envVars
     .filter(e => e.env === 'production')
     .map(maybeQuote)
   let production = productionVars.length
-    ? productionVars.join('\n  ')
-    : '# Add production env vars with: arc env production NAME value'
+    ? 'production\n  ' + productionVars.join('\n  ')
+    : '# production\n  # Add production env vars with: arc env production NAME value'
 
   let envString = `# The @env pragma is synced (and overwritten) by running arc env
 @env
-testing
-  ${testing}
+${testing}
 
-staging
-  ${staging}
+${staging}
 
-production
-  ${production}
+${production}
 `
 
   let prefs = stringify(arc)
