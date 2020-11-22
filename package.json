@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/architect/env#readme",
   "dependencies": {
-    "@architect/inventory": "~1.1.0-RC.10",
-    "@architect/parser": "~2.3.0",
+    "@architect/inventory": "~1.1.0-RC.14",
+    "@architect/parser": "~3.0.0",
     "@architect/utils": "~1.5.14",
     "aws-sdk": "~2.712.0",
     "chalk": "~4.1.0",
