@@ -9,8 +9,8 @@ module.exports = function validate (/* opts*/) {
     if (!process.env.AWS_REGION)
       throw Error('@aws region / AWS_REGION must be configured')
   }
-  catch (e) {
-    update.error(`Failed to update environment, ${e.message}`)
+  catch (err) {
+    update.error(`Failed to update environment, ${err}`)
     process.exit(1)
   }
 }

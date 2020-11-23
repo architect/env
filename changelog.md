@@ -2,6 +2,27 @@
 
 ---
 
+## [1.1.0] 2020-11-16
+
+### Added
+
+- Support for `preferences.arc` (and `prefs.arc`)
+- Support for `.env`
+- Gave `env` a much needed makeover! Some highlights:
+  - Only prints the environment whose variables were changed (making it easier to see what happend in projects with lots of env vars)
+  - Tidied up formatting and printing
+  - Added some more helpful messages about what's going on
+  - Exit gracefully instead of erroring when removing an env var that doesn't exist
+
+
+### Changed
+
+- Implemented Inventory (`@architect/inventory`)
+- Updated dependencies
+- Deprecated writing to `.arc-env` file
+
+---
+
 ## [1.0.12] 2020-07-15
 
 ### Fixed

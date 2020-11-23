@@ -2,12 +2,15 @@ let test = require('tape')
 let sinon = require('sinon')
 let write = require('../src/_write')
 let fs = require('fs')
+let { updater } = require('@architect/utils')
+let update = updater('Env')
+let params = { appname: 'fakeappname', update }
 
 test('_write should write out env vars to a .arc-env file', t => {
-  t.plan(10)
+  t.plan(2)
   let fake = sinon.fake.returns()
   sinon.replace(fs, 'writeFileSync', fake)
-  write([
+  write({ envVars: [
     { env: 'testing', name: 'one', value: '1' },
     { env: 'staging', name: 'two', value: '2' },
     { env: 'production', name: 'three', value: '3' },
@@ -17,16 +20,25 @@ test('_write should write out env vars to a .arc-env file', t => {
     { env: 'production', name: 'cee', value: 'c#c' },
     { env: 'production', name: 'dee', value: 'dee1.23' },
     { env: 'production', name: 'eee', value: '1.23eee' },
-  ])
+  ], ...params } )
   let args = fake.lastCall.args
-  t.ok(args[0].endsWith('.arc-env'), 'wrote to a file that ends in .arc-env')
-  t.ok(args[1].includes('@testing\none 1'), 'wrote testing env var to correct place in env file')
-  t.ok(args[1].includes('@staging\ntwo 2'), 'wrote staging env var to correct place in env file')
-  t.ok(args[1].includes('@production\nthree 3'), 'wrote production env var to correct place in env file')
-  t.ok(args[1].includes('float "1.23"'), 'wrote production env var to correct place in env file')
-  t.ok(args[1].includes('aye a'), 'wrote production env var to correct place in env file')
-  t.ok(args[1].includes('bee "b@b"'), 'wrote production env var to correct place in env file')
-  t.ok(args[1].includes('cee "c#c"'), 'wrote production env var to correct place in env file')
-  t.ok(args[1].includes('dee dee1.23'), 'wrote production env var to correct place in env file')
-  t.ok(args[1].includes('eee 1.23eee'), 'wrote production env var to correct place in env file')
+  let file = args[1].split('\n').slice(1).join('\n') // Lop off the comment at the top of the block
+  let contents = `@env
+testing
+  one 1
+
+staging
+  two 2
+
+production
+  three 3
+  float "1.23"
+  aye a
+  bee "b@b"
+  cee "c#c"
+  dee dee1.23
+  eee 1.23eee
+`
+  t.ok(args[0].endsWith('preferences.arc'), 'wrote to a file that ends in preferences.arc')
+  t.equal(file, contents, 'All env vars were placed correctly in the preferences file')
 })

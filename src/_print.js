@@ -1,35 +1,45 @@
 let chalk = require('chalk')
-let { updater } = require('@architect/utils')
-let update = updater('Env')
 
-module.exports = function printer (err, result) {
-  if (err) {
-    update.error(err)
-  }
+module.exports = function printer (err, { envVars, update, prints }) {
+  if (err) update.error(err)
   else {
-    let testing = result.filter(p => p.env === 'testing')
-    let staging = result.filter(p => p.env === 'staging')
-    let production = result.filter(p => p.env === 'production')
-    if (testing.length > 0) {
-      update.done('Added env var(s) to testing environment')
-      testing.forEach(t => {
-        console.log(chalk.cyan.bold(t.name), chalk.cyan(t.value))
-      })
-      console.log('')
+    let fmt = ({ name, value }) => `${chalk.cyan.bold(name)} ${chalk.cyan(value)}`
+    let msg = e => `None found! Add ${e} env vars with: ${chalk.cyan.bold(`arc env ${e} NAME value`)}`
+
+    // Testing
+    if (prints.testing) {
+      let testing = envVars.filter(p => p.env === 'testing')
+      let title = 'Testing env vars:'
+      if (testing.length) {
+        update.status(title, ...testing.map(fmt))
+      }
+      else {
+        update.status(title, msg('testing'))
+      }
     }
-    if (staging.length > 0) {
-      update.done('Added env var(s) to staging environment')
-      staging.forEach(t => {
-        console.log(chalk.cyan.bold(t.name), chalk.cyan(t.value))
-      })
-      console.log('')
+
+    // Staging
+    if (prints.staging) {
+      let staging = envVars.filter(p => p.env === 'staging')
+      let title = 'Staging env vars:'
+      if (staging.length) {
+        update.status(title, ...staging.map(fmt))
+      }
+      else {
+        update.status(title, msg('staging'))
+      }
     }
-    if (production.length > 0) {
-      update.done('Added env var(s) to production environment')
-      production.forEach(t => {
-        console.log(chalk.cyan.bold(t.name), chalk.cyan(t.value))
-      })
-      console.log('')
+
+    // Production
+    if (prints.production) {
+      let production = envVars.filter(p => p.env === 'production')
+      let title = 'Production env vars:'
+      if (production.length) {
+        update.status(title, ...production.map(fmt))
+      }
+      else {
+        update.status(title, msg('production'))
+      }
     }
   }
 }
