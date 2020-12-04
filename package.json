@@ -24,12 +24,12 @@
   },
   "homepage": "https://github.com/architect/env#readme",
   "dependencies": {
-    "@architect/inventory": "~1.1.0",
-    "@architect/parser": "~3.0.0",
-    "@architect/utils": "~2.0.0",
+    "@architect/inventory": "~1.2.0",
+    "@architect/parser": "~3.0.1",
+    "@architect/utils": "~2.0.2",
     "aws-sdk": "~2.712.0",
     "chalk": "~4.1.0",
-    "cross-env": "~7.0.2",
+    "cross-env": "~7.0.3",
     "dotenv": "~8.2.0",
     "run-series": "~1.1.9"
   },
