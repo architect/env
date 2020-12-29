@@ -8,6 +8,7 @@ let params = { appname: 'fakeappname', update }
 
 test('_write should write out env vars to a .arc-env file', t => {
   t.plan(2)
+  process.env.ARC_TESTING = true
   let fake = sinon.fake.returns()
   sinon.replace(fs, 'writeFileSync', fake)
   write({ envVars: [
@@ -21,8 +22,8 @@ test('_write should write out env vars to a .arc-env file', t => {
     { env: 'production', name: 'dee', value: 'dee1.23' },
     { env: 'production', name: 'eee', value: '1.23eee' },
   ], ...params } )
-  let args = fake.lastCall.args
-  let file = args[1].split('\n').slice(1).join('\n') // Lop off the comment at the top of the block
+  let args = fake.args
+  let file = args[0][1].split('\n').slice(1).join('\n') // Lop off the comment at the top of the block
   let contents = `@env
 testing
   one 1
@@ -39,6 +40,7 @@ production
   dee dee1.23
   eee 1.23eee
 `
-  t.ok(args[0].endsWith('preferences.arc'), 'wrote to a file that ends in preferences.arc')
+  delete process.env.ARC_TESTING
+  t.ok(args[0][0].endsWith('preferences.arc'), 'wrote to a file that ends in preferences.arc')
   t.equal(file, contents, 'All env vars were placed correctly in the preferences file')
 })
