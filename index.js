@@ -92,8 +92,7 @@ module.exports = function env (opts, callback) {
 function printAndWriteAll (params, callback) {
   all(params, function (err, envVars) {
     print(err, { envVars, ...params })
-    write({ envVars, ...params })
-    callback()
+    write({ envVars, ...params }, callback)
   })
 }
 

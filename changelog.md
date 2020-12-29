@@ -2,6 +2,17 @@
 
 ---
 
+## [1.2.0] 2020-12-29
+
+### Added
+
+- Added new prompts:
+  - Create a preferences file if one does not already exist
+  - Add or update a `.gitignore` file (if project dir is a git repo)
+  - Fixes #1033; thanks @rbethel!
+
+---
+
 ## [1.1.1] 2020-12-04
 
 ### Changed

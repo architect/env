@@ -26,7 +26,10 @@ let remove = (params, opts, callback) => {
 }
 
 let writeRan = false
-let write = () => ( writeRan = true )
+let write = (params, callback) => {
+  writeRan = true
+  callback()
+}
 
 function reset () {
   addRan = false
