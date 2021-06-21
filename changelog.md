@@ -2,6 +2,14 @@
 
 ---
 
+## [1.2.2] 2021-06-21
+
+### Changed
+
+- Updated dependencies
+
+---
+
 ## [1.2.1] 2021-05-24
 
 ### Changed
