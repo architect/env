@@ -1,0 +1,11 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: "@architect/inventory"
+    versions:
+    - 1.3.1
