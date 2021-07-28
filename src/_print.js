@@ -33,12 +33,16 @@ module.exports = function printer (err, { envVars, update, prints }) {
     // Production
     if (prints.production) {
       let production = envVars.filter(p => p.env === 'production')
+      let hasSecret = production.some(e => e.name === 'ARC_APP_SECRET')
       let title = 'Production env vars:'
       if (production.length) {
         update.status(title, ...production.map(fmt))
       }
       else {
         update.status(title, msg('production'))
+      }
+      if (!hasSecret) {
+        update.warn('The environment variable "ARC_APP_SECRET" is not set - please ensure to set this to something secret in production to help mitigate potential session-related attacks!')
       }
     }
   }
