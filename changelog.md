@@ -2,7 +2,12 @@
 
 ---
 
-## [2.0.0] 2021-07-26
+## [2.0.0 - 2.0.1] 2021-07-26
+
+### Added
+
+- Warn if `ARC_APP_SECRET` is not set in production
+
 
 ### Changed
 
