@@ -27,7 +27,7 @@
     "@architect/inventory": "~2.0.3",
     "@architect/parser": "~4.0.0",
     "@architect/utils": "~3.0.1",
-    "aws-sdk": "2.880.0",
+    "aws-sdk": "2.955.0",
     "chalk": "~4.1.1",
     "cross-env": "~7.0.3",
     "dotenv": "~10.0.0",
