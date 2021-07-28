@@ -42,7 +42,7 @@ module.exports = function printer (err, { envVars, update, prints }) {
         update.status(title, msg('production'))
       }
       if (!hasSecret) {
-        update.warn('The environment variable "ARC_APP_SECRET" is not set - please ensure to set this to something secret in production to help mitigate potential session-related attacks!')
+        update.warn('The environment variable "ARC_APP_SECRET" is not set - please set this in production to help mitigate potential session-related attacks!')
       }
     }
   }
