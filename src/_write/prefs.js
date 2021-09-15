@@ -1,4 +1,4 @@
-let { parser, lexer, stringify } = require('@architect/parser')
+let parser = require('@architect/parser')
 let fs = require('fs')
 let { existsSync, readFileSync } = fs
 let { join } = require('path')
@@ -25,7 +25,7 @@ module.exports = function write ({ envVars, update }, callback) {
   let prefsExists = existsSync(prefsPath)
   if (prefsExists) {
     let raw = readFileSync(prefsPath).toString()
-    arc = parser(lexer(raw))
+    arc = parser(raw)
     delete arc.env
   }
   else arc = {}
@@ -83,7 +83,7 @@ ${production}
     },
     function (write, callback) {
       if (write) {
-        let prefs = stringify(arc)
+        let prefs = parser.stringify(arc)
         prefs = prefs ? prefs + '\n' : prefs
         let contents = prefs + envString
         fs.writeFileSync(prefsPath, contents)

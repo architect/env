@@ -2,6 +2,15 @@
 
 ---
 
+## [2.0.3] 2021-09-14
+
+### Changed
+
+- Internal: Updated Architect Parser to v5
+- Updated dependencies
+
+---
+
 ## [2.0.0 - 2.0.2] 2021-07-26
 
 ### Added
