@@ -1,6 +1,8 @@
 let test = require('tape')
 let sinon = require('sinon')
+let AWS = require('aws-sdk')
 let aws = require('aws-sdk-mock')
+aws.setSDKInstance(AWS)
 let add = require('../src/_add')
 let series = require('run-series')
 let { updater } = require('@architect/utils')
