@@ -8,6 +8,7 @@
 
 - Breaking change: no longer use `NODE_ENV`, deprecated in favor of `ARC_ENV`
 - Breaking change: due to no actual usage, this package is no longer publishing to the GitHub Package registry, only npm
+- Updated dependencies
 
 ---
 
