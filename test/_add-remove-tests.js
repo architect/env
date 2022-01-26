@@ -3,7 +3,7 @@ let sinon = require('sinon')
 let AWS = require('aws-sdk')
 let aws = require('aws-sdk-mock')
 aws.setSDKInstance(AWS)
-let addRemove = require('../src/_add')
+let addRemove = require('../src/_add-remove')
 let series = require('run-series')
 let { updater } = require('@architect/utils')
 
