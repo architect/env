@@ -3,6 +3,9 @@
   "version": "3.0.0-RC.0",
   "description": "Manage your Architect app's environment variables",
   "main": "index.js",
+  "bin": {
+    "arc-env": "cli.js"
+  },
   "scripts": {
     "test": "npm run lint && npm run coverage",
     "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-spec",

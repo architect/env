@@ -1,29 +1,25 @@
 let test = require('tape')
-// let sinon = require('sinon')
 let proxyquire = require('proxyquire')
 
 let inv = (params, callback) => ( callback(null, { inv: { app: 'fakename' } }) )
 
 let addRan = false
-let add = (params, opts, callback) => {
-  addRan = true
+let removeRan = false
+let addRemove = (params, callback) => {
+  let { action } = params
+  if (action === 'add') addRan = true
+  if (action === 'remove') removeRan = true
   callback()
 }
 
-let allRan = false
-let all = (params, callback) => {
-  allRan = true
+let getEnvRan = false
+let getEnv = (params, callback) => {
+  getEnvRan = true
   callback(null, [])
 }
 
 let printRan = false
 let print = () => ( printRan = true )
-
-let removeRan = false
-let remove = (params, opts, callback) => {
-  removeRan = true
-  callback()
-}
 
 let writeRan = false
 let write = (params, callback) => {
@@ -33,7 +29,7 @@ let write = (params, callback) => {
 
 function reset () {
   addRan = false
-  allRan = false
+  getEnvRan = false
   printRan = false
   removeRan = false
   writeRan = false
@@ -41,28 +37,26 @@ function reset () {
 
 let env = proxyquire('../', {
   '@architect/inventory': inv,
-  './src/_add': add,
-  './src/_all': all,
+  './src/_add': addRemove,
+  './src/_get-env': getEnv,
   './src/_print': print,
-  './src/_remove': remove,
   './src/_write': write,
 })
-process.env.AWS_REGION = 'us-west-1'
 
-test('env errors if provided an unrecognized command', t => {
+test('Env errors if provided an unrecognized action', t => {
   t.plan(1)
-  env([ 'poop' ], function done (err) {
+  env({ action: 'idk', inventory: {} }, function done (err) {
     if (err) t.ok(err, 'got an error when env called with incorrect options')
     else t.fail('no error returned when env called with incorrect options')
   })
 })
 
-test('env invokes all, write and print submodules when run without arguments', t => {
+test('Env prints and writes preferences on print', t => {
   t.plan(3)
-  env([], function done (err) {
+  env({ action: 'print', inventory: {} }, function done (err) {
     if (err) t.error(err, 'unexpected error when calling env with no parameters')
     else {
-      t.ok(allRan, '`all` invoked once')
+      t.ok(getEnvRan, '`getEnv` invoked once')
       t.ok(printRan, '`print` invoked once')
       t.ok(writeRan, '`write` invoked once')
     }
@@ -70,12 +64,13 @@ test('env invokes all, write and print submodules when run without arguments', t
   })
 })
 
-test('env invokes add, all, write and print submodules when run with three arguments (including proper env name)', t => {
+test('Env invokes add, prints, and writes on a valid add request', t => {
   t.plan(4)
-  env([ 'production', 'foo', 'bar' ], function done (err) {
+  let params = { action: 'add', env: 'production', name: 'foo', value: 'bar', inventory: {} }
+  env(params, function done (err) {
     if (err) t.error(err, 'unexpected error when calling env with add parameters')
     else {
-      t.ok(allRan, '`all` invoked once')
+      t.ok(getEnvRan, '`getEnv` invoked once')
       t.ok(printRan, '`print` invoked once')
       t.ok(writeRan, '`write` invoked once')
       t.ok(addRan, '`add` invoked once')
@@ -84,17 +79,17 @@ test('env invokes add, all, write and print submodules when run with three argum
   })
 })
 
-test('env invokes remove, all, write and print submodules when run with three arguments (including remove as first arg)', t => {
+test('Env invokes remove, prints, and writes on a valid remove request', t => {
   t.plan(4)
-  env([ 'remove', 'production', 'foo' ], function done (err) {
+  let params = { action: 'remove', env: 'production', name: 'foo', value: 'bar', inventory: {} }
+  env(params, function done (err) {
     if (err) t.error(err, 'unexpected error when calling env with remove parameters')
     else {
-      t.ok(allRan, '`all` invoked once')
+      t.ok(getEnvRan, '`getEnv` invoked once')
       t.ok(printRan, '`print` invoked once')
       t.ok(writeRan, '`write` invoked once')
       t.ok(removeRan, '`remove` invoked once')
     }
     reset()
-    delete process.env.AWS_REGION
   })
 })

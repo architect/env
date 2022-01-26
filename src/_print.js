@@ -4,7 +4,7 @@ module.exports = function printer (err, { envVars, update, prints }) {
   if (err) update.error(err)
   else {
     let fmt = ({ name, value }) => `${chalk.cyan.bold(name)} ${chalk.cyan(value)}`
-    let msg = e => `None found! Add ${e} env vars with: ${chalk.cyan.bold(`arc env ${e} NAME value`)}`
+    let msg = e => `None found! Add ${e} env vars with: ${chalk.cyan.bold(`arc env --add --env ${e} NAME value`)}`
 
     // Testing
     if (prints.testing) {

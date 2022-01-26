@@ -1,11 +1,11 @@
 let aws = require('aws-sdk')
 
-module.exports = function _all ({ appname, update }, callback) {
+module.exports = function _all ({ inventory, update }, callback) {
+  let appname = inventory.inv.app
+  let region = inventory.inv.aws.region
 
-  let ssm = new aws.SSM({ region: process.env.AWS_REGION })
-
-  // reset this every call..
   let result = []
+  let ssm = new aws.SSM({ region })
 
   function getSome (appname, NextToken, callback) {
     // base query to ssm
