@@ -37,7 +37,7 @@ function reset () {
 
 let env = proxyquire('../', {
   '@architect/inventory': inv,
-  './src/_add': addRemove,
+  './src/_add-remove': addRemove,
   './src/_get-env': getEnv,
   './src/_print': print,
   './src/_write': write,
