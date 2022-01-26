@@ -1,7 +1,11 @@
 let aws = require('aws-sdk')
 let isReserved = require('./_is-reserved')
 
-module.exports = function _add ({ appname, update }, params, callback) {
+module.exports = function _addRemove (params, callback) {
+  let { action, env, inventory, name, update, value } = params
+  let { inv } = inventory
+  let { app } = inv
+  let region = inv.aws.region
 
   // only the following namespaces allowed
   let allowed = [
@@ -10,42 +14,48 @@ module.exports = function _add ({ appname, update }, params, callback) {
     'production'
   ]
 
-  // the params we expect
-  let ns = params[0]
-  let key = params[1]
-  let val = params[2]
+  let validName = /^[a-zA-Z0-9_]+/.test(name) && (name === 'testing' ? true : !isReserved(name))
 
-  // the state we expect them in
-  let valid = {
-    ns: allowed.includes(ns),
-    key: /[A-Z|_]+/.test(key) && (ns === 'testing' ? true : !isReserved(key))
+  if (!allowed.includes(env)) {
+    callback(Error(`Invalid environment: must be one of: ${allowed.join(', ')}`))
   }
-
-  // blow up if something bad happens otherwise write the param
-  if (!valid.ns) {
-    callback(Error('Invalid argument, environment can only be one of: testing, staging, or production'))
+  else if (!validName) {
+    callback(Error('Invalid name: can contain [a-zA-Z0-9_]'))
   }
-  else if (!valid.key) {
-    callback(Error('Invalid argument, key must be all caps (and can contain underscores)'))
+  else if (action === 'add' && !value) {
+    callback(Error('Invalid value: must specify environment variable value to add'))
   }
   else {
-    update.start(`Adding ${key} to ${ns} environment`)
-    let ssm = new aws.SSM({ region: process.env.AWS_REGION })
-    ssm.putParameter({
-      Name: `/${appname}/${ns}/${key}`,
-      Value: val,
-      Type: 'SecureString',
-      Overwrite: true
-    },
+    let verb = action === 'add' ? 'Add' : 'Remov'
+    let prep = action === 'add' ? 'to' : 'from'
+    update.start(`${verb}ing ${name} ${prep} ${env} environment`)
     function done (err) {
-      if (err) {
+      if (action === 'remove' && err?.code === 'ParameterNotFound') {
+        update.done(`Env var ${name} not found in ${env} environment`)
+        callback()
+      }
+      else if (err) {
         update.cancel()
         callback(err)
       }
       else {
-        update.done(`Added ${key} to ${ns} environment`)
+        update.done(`${verb}ed ${name} ${prep} ${env} environment`)
         callback()
       }
-    })
+    }
+    let ssm = new aws.SSM({ region })
+    if (action === 'add') {
+      ssm.putParameter({
+        Name: `/${app}/${env}/${name}`,
+        Value: value,
+        Type: 'SecureString',
+        Overwrite: true
+      }, done)
+    }
+    else {
+      ssm.deleteParameter({
+        Name: `/${app}/${env}/${name}`,
+      }, done)
+    }
   }
 }

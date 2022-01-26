@@ -3,36 +3,40 @@ let sinon = require('sinon')
 let AWS = require('aws-sdk')
 let aws = require('aws-sdk-mock')
 aws.setSDKInstance(AWS)
-let all = require('../src/_all')
+let getEnv = require('../src/_get-env')
 let { updater } = require('@architect/utils')
-let update = updater('Env')
-let params = { appname: 'fakeappname', update }
 
-test('_all should callback with error if SSM has error', t => {
+let update = updater('Env')
+let params = { inventory: { inv: {
+  app: 'appname',
+  aws: { region: 'us-west-2' },
+} }, update }
+
+test('getEnv should callback with error if SSM errors', t => {
   t.plan(1)
   let fake = sinon.fake.yields({ boom: true })
   aws.mock('SSM', 'getParametersByPath', fake)
-  all(params, function done (err) {
+  getEnv(params, function done (err) {
     if (err) t.ok(err, 'got an error when SSM explodes')
     else t.fail('no error returned when SSM explodes')
     aws.restore('SSM')
   })
 })
 
-test('_all should return massaged data from SSM', t => {
+test('getEnv should return massaged data from SSM', t => {
   t.plan(1)
   let fake = sinon.fake.yields(null, {
     Parameters: [ { Name: 'ssm/fakeappname/testing/key', Value: 'value' } ]
   })
   aws.mock('SSM', 'getParametersByPath', fake)
-  all(params, function done (err, results) {
+  getEnv(params, function done (err, results) {
     if (err) t.error(err, 'unexpected error callback when ssm returns proper data')
-    else t.deepEqual(results, [ { app: 'fakeappname', env: 'testing', name: 'key', value: 'value' } ], 'got expected format for SSM env vars')
+    else t.deepEqual(results, [ { app: 'appname', env: 'testing', name: 'key', value: 'value' } ], 'got expected format for SSM env vars')
     aws.restore('SSM')
   })
 })
 
-test('_all should be able to handle paged data from SSM', t => {
+test('getEnv should be able to handle paginated data from SSM', t => {
   t.plan(2)
   let fake = sinon.fake(function (query, callback) {
     // Only on the first call, provide a next token.
@@ -47,7 +51,7 @@ test('_all should be able to handle paged data from SSM', t => {
     }
   })
   aws.mock('SSM', 'getParametersByPath', fake)
-  all(params, function done (err, results) {
+  getEnv(params, function done (err, results) {
     if (err) t.error(err)
     else {
       t.equals(fake.callCount, 2, 'SSM.getParametersByPath called twice when next token is present')

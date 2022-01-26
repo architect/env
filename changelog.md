@@ -4,11 +4,23 @@
 
 ## [3.0.0] 2022-01-23
 
+### Added
+
+- Added ability to directly invoke `env` without `@architect/architect`
+
+
 ### Changed
 
+- Breaking change: consolidated module API into single method
 - Breaking change: no longer use `NODE_ENV`, deprecated in favor of `ARC_ENV`
-- Breaking change: due to no actual usage, this package is no longer publishing to the GitHub Package registry, only npm
+- Breaking change: bare CLI arguments (e.g. `env add...`) as aliases to flags are no longer used
+- Stop publishing to the GitHub Package registry
 - Updated dependencies
+
+
+### Fixed
+
+- Fixed basic env var validation
 
 ---
 

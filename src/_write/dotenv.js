@@ -15,6 +15,6 @@ module.exports = function dotEnv ({ envVars, update }) {
     })
     let contents = Object.entries(envVars).map(format).join('\n') + '\n'
     writeFileSync(dotEnvPath, contents)
-    update.done(`Updated .env file with testing environment variables`)
+    update.done(`Updated .env file with testing env vars`)
   }
 }

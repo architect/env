@@ -43,21 +43,21 @@ module.exports = function write ({ envVars, update }, callback) {
     .map(maybeQuote)
   let testing = testingVars.length
     ? 'testing\n  ' + testingVars.join('\n  ')
-    : '# testing\n  # Add testing env vars with: arc env testing NAME value'
+    : '# testing\n  # Add testing env vars with: arc env --add --env testing NAME value'
 
   let stagingVars = envVars
     .filter(e => e.env === 'staging')
     .map(maybeQuote)
   let staging = stagingVars.length
     ? 'staging\n  ' + stagingVars.join('\n  ')
-    : '# staging\n  # Add staging env vars with: arc env staging NAME value'
+    : '# staging\n  # Add staging env vars with: arc env --add --env staging NAME value'
 
   let productionVars = envVars
     .filter(e => e.env === 'production')
     .map(maybeQuote)
   let production = productionVars.length
     ? 'production\n  ' + productionVars.join('\n  ')
-    : '# production\n  # Add production env vars with: arc env production NAME value'
+    : '# production\n  # Add production env vars with: arc env --add --env production NAME value'
 
   let envString = `# The @env pragma is synced (and overwritten) by running arc env
 @env
@@ -76,7 +76,7 @@ ${production}
       if (prefsExists) callback(null, true)
       else {
         let question = 'Would you like to create a local preferences file? [Y|n]'
-        let why = 'Sandbox uses this to load your environment variables'
+        let why = 'Sandbox uses this to load your env vars'
         update.status(question, why)
         prompt(update, callback)
       }
@@ -87,7 +87,7 @@ ${production}
         prefs = prefs ? prefs + '\n' : prefs
         let contents = prefs + envString
         fs.writeFileSync(prefsPath, contents)
-        update.done(`Updated ${filename} file with latest environment variables`)
+        update.done(`Updated ${filename} file with latest env vars`)
         callback(null, true)
       }
       else callback(null, false)

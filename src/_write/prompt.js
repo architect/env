@@ -10,12 +10,6 @@ module.exports = function prompt (update, callback) {
   // yesno doesn't specifically support testing, so bypass it for tests
   if (process.env.ARC_TESTING) callback(null, true)
   else yesno({ question: '', defaultValue, invalid })
-    .then(
-      val => {
-        callback(null, val)
-      },
-      err => {
-        callback(err)
-      }
-    )
+    .then(val => callback(null, val))
+    .catch(callback)
 }
