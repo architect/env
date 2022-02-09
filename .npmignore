@@ -1,7 +1,0 @@
-.eslintrc.js
-.git/
-.github/
-.nyc_output/
-codecov.yaml
-coverage/
-test/

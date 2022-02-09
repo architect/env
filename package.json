@@ -2,9 +2,9 @@
   "name": "@architect/env",
   "version": "3.0.0-RC.1",
   "description": "Manage your Architect app's environment variables",
-  "main": "index.js",
+  "main": "src/index.js",
   "bin": {
-    "arc-env": "cli.js"
+    "arc-env": "src/cli.js"
   },
   "scripts": {
     "test": "npm run lint && npm run coverage",
@@ -26,6 +26,9 @@
     "url": "https://github.com/architect/env/issues"
   },
   "homepage": "https://github.com/architect/env#readme",
+  "files": [
+    "src/*"
+  ],
   "dependencies": {
     "@architect/inventory": "~3.0.0-RC.5",
     "@architect/parser": "~5.0.2",

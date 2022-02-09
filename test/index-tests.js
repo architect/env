@@ -37,10 +37,10 @@ function reset () {
 
 let env = proxyquire('../', {
   '@architect/inventory': inv,
-  './src/_add-remove': addRemove,
-  './src/_get-env': getEnv,
-  './src/_print': print,
-  './src/_write': write,
+  './_add-remove': addRemove,
+  './_get-env': getEnv,
+  './_print': print,
+  './_write': write,
 })
 
 test('Env errors if provided an unrecognized action', t => {
