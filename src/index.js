@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-let validate = require('./src/_validate')
+let validate = require('./_validate')
 let series = require('run-series')
 let { updater } = require('@architect/utils')
 
-let addRemove = require('./src/_add-remove')
-let getEnv = require('./src/_get-env')
-let print = require('./src/_print')
-let write = require('./src/_write')
+let addRemove = require('./_add-remove')
+let getEnv = require('./_get-env')
+let print = require('./_print')
+let write = require('./_write')
 let actions = [ 'add', 'print', 'remove' ]
 
 module.exports = function env (params, callback) {

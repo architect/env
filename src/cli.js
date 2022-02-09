@@ -2,7 +2,7 @@
 let minimist = require('minimist')
 let _inventory = require('@architect/inventory')
 let { banner, updater } = require('@architect/utils')
-let { version } = require('./package.json')
+let { version } = require('../package.json')
 
 let env = require('.')
 let update = updater('Env')
