@@ -8,6 +8,11 @@
 
 - Updated dependencies
 
+
+### Fixed
+
+- Fixed issue where an environment variable could not be set with a number value; fixes #1353
+
 ---
 
 ## [3.0.2] 2022-05-10
