@@ -48,7 +48,7 @@ module.exports = function _addRemove (params, callback) {
     if (action === 'add') {
       ssm.putParameter({
         Name: `/${app}/${env}/${name}`,
-        Value: value,
+        Value: `${value}`,
         Type: 'SecureString',
         Overwrite: true
       }, done)
