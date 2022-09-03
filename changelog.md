@@ -2,6 +2,14 @@
 
 ---
 
+## [3.0.5] 2022-09-02
+
+### Fixed
+
+- Fixed relying on other Architect packages' use of `minimist` as a dependency to help reduce issues with Yarn workspaces; helps fix #1356
+
+---
+
 ## [3.0.4] 2022-07-26
 
 ### Changed

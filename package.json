@@ -36,6 +36,7 @@
     "aws-sdk": "2.1001.0",
     "chalk": "4.1.2",
     "dotenv": "~16.0.1",
+    "minimist": "~1.2.6",
     "run-series": "~1.1.9",
     "run-waterfall": "~1.1.7",
     "yesno": "~0.4.0"
