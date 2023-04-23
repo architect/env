@@ -2,6 +2,7 @@
 let validate = require('./_validate')
 let series = require('run-series')
 let { updater } = require('@architect/utils')
+require('aws-sdk/lib/maintenance_mode_message').suppress = true
 
 let addRemove = require('./_add-remove')
 let getEnv = require('./_get-env')
