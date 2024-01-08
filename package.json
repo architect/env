@@ -35,7 +35,6 @@
     "@architect/utils": "~4.0.0-RC.1",
     "@aws-lite/client": "~0.13.4",
     "@aws-lite/ssm": "~0.2.2",
-    "aws-sdk": "^2.1363.0",
     "chalk": "4.1.2",
     "dotenv": "~16.3.1",
     "minimist": "~1.2.8",
@@ -45,7 +44,6 @@
   },
   "devDependencies": {
     "@architect/eslint-config": "~2.1.2",
-    "aws-sdk-mock": "~5.8.0",
     "cross-env": "~7.0.3",
     "eslint": "^8.56.0",
     "nyc": "^15.1.0",
