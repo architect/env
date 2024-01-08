@@ -1,11 +1,8 @@
-let aws = require('aws-sdk')
 let isReserved = require('./_is-reserved')
 
-module.exports = function _addRemove (params, callback) {
+module.exports = function _addRemove (params, aws, callback) {
   let { action, env, inventory, name, update, value } = params
-  let { inv } = inventory
-  let { app } = inv
-  let region = inv.aws.region
+  let { app } = inventory.inv
 
   // only the following namespaces allowed
   let allowed = [
@@ -44,19 +41,22 @@ module.exports = function _addRemove (params, callback) {
         callback()
       }
     }
-    let ssm = new aws.SSM({ region })
     if (action === 'add') {
-      ssm.putParameter({
+      aws.ssm.PutParameter({
         Name: `/${app}/${env}/${name}`,
         Value: `${value}`,
         Type: 'SecureString',
         Overwrite: true
-      }, done)
+      })
+        .then(() => done())
+        .catch(done)
     }
     else {
-      ssm.deleteParameter({
+      aws.ssm.DeleteParameter({
         Name: `/${app}/${env}/${name}`,
-      }, done)
+      })
+        .then(() => done())
+        .catch(done)
     }
   }
 }

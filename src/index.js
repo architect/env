@@ -1,10 +1,7 @@
-#!/usr/bin/env node
 let validate = require('./_validate')
 let series = require('run-series')
 let { updater } = require('@architect/utils')
-// eslint-disable-next-line
-try { require('aws-sdk/lib/maintenance_mode_message').suppress = true }
-catch { /* Noop */ }
+let awsLite = require('@aws-lite/client')
 
 let addRemove = require('./_add-remove')
 let getEnv = require('./_get-env')
@@ -35,28 +32,33 @@ module.exports = function env (params, callback) {
     production: false,
   }
 
-  if (action === 'print') {
-    prints = {
-      testing: true,
-      staging: true,
-      production: true,
-    }
-    printAndWrite({ inventory, prints, update }, callback)
-  }
-  else if (actions.includes(action)) {
-    series([
-      function (callback) {
-        addRemove(params, callback)
-      },
-      function (callback) {
-        prints[params.env] = true
-        printAndWrite({ inventory, prints, update }, callback)
-      },
-    ], callback)
-  }
-  else {
-    callback(Error(`Invalid action: must be one of: ${actions.join(', ')}`))
-  }
+  awsLite({ region: inventory.inv.aws.region })
+    .then(aws => {
+      if (action === 'print') {
+        prints = {
+          testing: true,
+          staging: true,
+          production: true,
+        }
+        printAndWrite({ aws, inventory, prints, update }, callback)
+      }
+      else if (actions.includes(action)) {
+        series([
+          function (callback) {
+            addRemove(params, aws, callback)
+          },
+          function (callback) {
+            prints[params.env] = true
+            printAndWrite({ aws, inventory, prints, update }, callback)
+          },
+        ], callback)
+      }
+      else {
+        callback(Error(`Invalid action: must be one of: ${actions.join(', ')}`))
+      }
+    })
+    .catch(callback)
+
 
   return promise
 }

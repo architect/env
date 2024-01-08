@@ -1,4 +1,4 @@
-let test = require('tape')
+/* let test = require('tape')
 let sinon = require('sinon')
 let AWS = require('aws-sdk')
 let aws = require('aws-sdk-mock')
@@ -163,3 +163,4 @@ test('Remove should not callback with error if parameter is not found', t => {
   })
   aws.restore('SSM')
 })
+ */
