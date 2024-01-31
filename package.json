@@ -33,10 +33,10 @@
     "@architect/inventory": "~4.0.0-RC.2",
     "@architect/parser": "~6.0.3",
     "@architect/utils": "~4.0.0-RC.3",
-    "@aws-lite/client": "~0.14.2",
-    "@aws-lite/ssm": "~0.2.2",
+    "@aws-lite/client": "^0.15.1",
+    "@aws-lite/ssm": "^0.2.2",
     "chalk": "4.1.2",
-    "dotenv": "~16.4.0",
+    "dotenv": "~16.4.1",
     "minimist": "~1.2.8",
     "run-series": "~1.1.9",
     "run-waterfall": "~1.1.7",
@@ -50,7 +50,7 @@
     "proxyquire": "~2.1.3",
     "sinon": "^17.0.1",
     "tap-arc": "^1.2.2",
-    "tape": "^5.7.3"
+    "tape": "^5.7.4"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config"
