@@ -32,7 +32,10 @@ module.exports = function env (params, callback) {
     production: false,
   }
 
-  awsLite({ region: inventory.inv.aws.region })
+  awsLite({
+    profile: inventory.inv.aws.profile,
+    region: inventory.inv.aws.region,
+  })
     .then(aws => {
       if (action === 'print') {
         prints = {
