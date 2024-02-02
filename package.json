@@ -30,10 +30,10 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.0-RC.2",
+    "@architect/inventory": "~4.0.0",
     "@architect/parser": "~6.0.3",
-    "@architect/utils": "~4.0.0-RC.3",
-    "@aws-lite/client": "^0.15.1",
+    "@architect/utils": "~4.0.0",
+    "@aws-lite/client": "^0.15.2",
     "@aws-lite/ssm": "^0.2.2",
     "chalk": "4.1.2",
     "dotenv": "~16.4.1",
