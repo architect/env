@@ -35,6 +35,7 @@ module.exports = function env (params, callback) {
   awsLite({
     profile: inventory.inv.aws.profile,
     region: inventory.inv.aws.region,
+    plugins: [ import('@aws-lite/ssm') ],
   })
     .then(aws => {
       if (action === 'print') {
