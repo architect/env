@@ -7,7 +7,7 @@ module.exports = function _all ({ aws, inventory, update }, callback) {
     Recursive: true,
     MaxResults: 10,
     WithDecryption: true,
-    paginate: true
+    paginate: true,
   })
     .then(data => {
       let result = data.Parameters.map(function (param) {

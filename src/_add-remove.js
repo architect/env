@@ -8,7 +8,7 @@ module.exports = function _addRemove (params, aws, callback) {
   let allowed = [
     'testing',
     'staging',
-    'production'
+    'production',
   ]
 
   // IEEE 1003.1-2001 does not allow lowercase, so consider this a compromise for the Windows folks in the house
@@ -46,7 +46,7 @@ module.exports = function _addRemove (params, aws, callback) {
         Name: `/${app}/${env}/${name}`,
         Value: `${value}`,
         Type: 'SecureString',
-        Overwrite: true
+        Overwrite: true,
       })
         .then(() => done())
         .catch(done)

@@ -122,6 +122,6 @@ ${production}
         callback()
       }
       else callback()
-    }
+    },
   ], callback)
 }
