@@ -14,7 +14,7 @@
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "repository": {
     "type": "git",
@@ -30,10 +30,10 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.4",
-    "@architect/parser": "~6.0.3",
-    "@architect/utils": "~4.0.4",
-    "@aws-lite/client": "^0.20.0",
+    "@architect/inventory": "~4.0.5",
+    "@architect/parser": "~7.0.1",
+    "@architect/utils": "~4.0.6",
+    "@aws-lite/client": "^0.21.1",
     "@aws-lite/ssm": "^0.2.3",
     "chalk": "4.1.2",
     "dotenv": "~16.4.5",
@@ -43,16 +43,13 @@
     "yesno": "~0.4.0"
   },
   "devDependencies": {
-    "@architect/eslint-config": "~2.1.2",
+    "@architect/eslint-config": "~3.0.0",
     "cross-env": "~7.0.3",
-    "eslint": "^8.57.0",
+    "eslint": "^9.1.1",
     "nyc": "^15.1.0",
     "proxyquire": "~2.1.3",
     "sinon": "^17.0.1",
     "tap-arc": "^1.2.2",
     "tape": "^5.7.5"
-  },
-  "eslintConfig": {
-    "extends": "@architect/eslint-config"
   }
 }
