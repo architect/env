@@ -1,4 +1,3 @@
-let validate = require('./_validate')
 let series = require('run-series')
 let { updater } = require('@architect/utils')
 let awsLite = require('@aws-lite/client')
@@ -22,9 +21,6 @@ module.exports = function env (params, callback) {
       }
     })
   }
-
-  // Validate for expected env and check for potential creds issues
-  validate({ action, update })
 
   let prints = {
     testing: false,
