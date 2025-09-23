@@ -9,13 +9,13 @@
   "scripts": {
     "test": "npm run lint && npm run coverage",
     "test:nolint": "npm run coverage",
-    "test:unit": "cross-env tape 'test/**/*-tests.js' | tap-arc",
+    "test:unit": "cross-env tape 'test/**/*-tests.js'",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "repository": {
     "type": "git",
@@ -31,25 +31,20 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.5",
-    "@architect/parser": "~7.0.1",
-    "@architect/utils": "~4.0.6",
-    "@aws-lite/client": "^0.21.1",
+    "@architect/inventory": "~4.0.10-RC.0",
+    "@architect/parser": "~8.0.1",
+    "@architect/utils": "~5.0.0",
+    "@aws-lite/client": "~0.23.2",
     "@aws-lite/ssm": "^0.2.3",
-    "chalk": "4.1.2",
-    "dotenv": "~16.4.5",
-    "minimist": "~1.2.8",
-    "run-series": "~1.1.9",
-    "run-waterfall": "~1.1.7",
-    "yesno": "~0.4.0"
+    "dotenv": "17.2.2"
   },
   "devDependencies": {
     "@architect/eslint-config": "~3.0.0",
-    "cross-env": "~7.0.3",
+    "cross-env": "~10.0.0",
     "eslint": "^9.1.1",
-    "nyc": "^15.1.0",
+    "nyc": "~17.1.0",
     "proxyquire": "~2.1.3",
-    "sinon": "^17.0.1",
+    "sinon": "~21.0.0",
     "tap-arc": "^1.2.2",
     "tape": "^5.7.5"
   }

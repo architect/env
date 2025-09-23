@@ -1,4 +1,4 @@
-let yesno = require('yesno')
+let yesno = require('./yesno')
 
 module.exports = function prompt (update, callback) {
   let defaultValue = true

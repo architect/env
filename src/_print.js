@@ -1,4 +1,4 @@
-let chalk = require('chalk')
+let chalk = require('@architect/utils/chalk')
 
 module.exports = function printer (err, { envVars, update, prints }) {
   if (err) update.error(err)

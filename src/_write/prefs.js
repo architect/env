@@ -1,8 +1,10 @@
 let parser = require('@architect/parser')
+let waterfall = require('@architect/utils/run-waterfall')
+
 let fs = require('fs')
 let { existsSync, readFileSync } = fs
 let { join } = require('path')
-let waterfall = require('run-waterfall')
+
 let prompt = require('./prompt')
 
 module.exports = function write ({ envVars, update }, callback) {

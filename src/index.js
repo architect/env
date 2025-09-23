@@ -1,5 +1,4 @@
-let series = require('run-series')
-let { updater } = require('@architect/utils')
+let { updater, series } = require('@architect/utils')
 let awsLite = require('@aws-lite/client')
 
 let addRemove = require('./_add-remove')
