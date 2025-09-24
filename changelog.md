@@ -2,6 +2,13 @@
 
 ---
 
+## [5.0.0] 2024-09-24
+
+- Updated deps and node > 20
+- Vendored yesno
+
+---
+
 ## [4.0.5] 2024-04-30
 
 ### Fixed
