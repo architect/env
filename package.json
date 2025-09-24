@@ -31,7 +31,7 @@
     "src/*"
   ],
   "dependencies": {
-    "@architect/inventory": "~4.0.10-RC.0",
+    "@architect/inventory": "~5.0.0",
     "@architect/parser": "~8.0.1",
     "@architect/utils": "~5.0.0",
     "@aws-lite/client": "~0.23.2",
