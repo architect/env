@@ -34,7 +34,7 @@
     "@architect/inventory": "~5.0.0",
     "@architect/parser": "~8.0.1",
     "@architect/utils": "~5.0.0",
-    "@aws-lite/client": "~0.23.2",
+    "@aws-lite/client": "^0.23.2",
     "@aws-lite/ssm": "^0.2.3",
     "dotenv": "17.2.2"
   },
