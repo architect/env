@@ -59,59 +59,71 @@ test('Set up env', () => {
   assert.ok(true, 'Set up dummy creds')
 })
 
-test('Env errors if provided an unrecognized action', () => {
-  env({ action: 'idk', inventory }, function done (err) {
-    if (err) assert.ok(err, 'got an error when env called with incorrect options')
-    else assert.fail('no error returned when env called with incorrect options')
+test('Env errors if provided an unrecognized action', async () => {
+  await new Promise((resolve) => {
+    env({ action: 'idk', inventory }, function done (err) {
+      if (err) assert.ok(err, 'got an error when env called with incorrect options')
+      else assert.fail('no error returned when env called with incorrect options')
+      resolve()
+    })
   })
 })
 
-test('Env prints and writes preferences on print', () => {
-  env({ action: 'print', inventory }, function done (err) {
-    if (err) {
-      assert.fail('unexpected error when calling env with no parameters')
-      console.log(err)
-    }
-    else {
-      assert.ok(getEnvRan, '`getEnv` invoked once')
-      assert.ok(printRan, '`print` invoked once')
-      assert.ok(writeRan, '`write` invoked once')
-    }
-    reset()
+test('Env prints and writes preferences on print', async () => {
+  await new Promise((resolve) => {
+    env({ action: 'print', inventory }, function done (err) {
+      if (err) {
+        assert.fail('unexpected error when calling env with no parameters')
+        console.log(err)
+      }
+      else {
+        assert.ok(getEnvRan, '`getEnv` invoked once')
+        assert.ok(printRan, '`print` invoked once')
+        assert.ok(writeRan, '`write` invoked once')
+      }
+      reset()
+      resolve()
+    })
   })
 })
 
-test('Env invokes add, prints, and writes on a valid add request', () => {
+test('Env invokes add, prints, and writes on a valid add request', async () => {
   let params = { action: 'add', env: 'production', name: 'foo', value: 'bar', inventory }
-  env(params, function done (err) {
-    if (err) {
-      assert.fail('unexpected error when calling env with add parameters')
-      console.log(err)
-    }
-    else {
-      assert.ok(getEnvRan, '`getEnv` invoked once')
-      assert.ok(printRan, '`print` invoked once')
-      assert.ok(writeRan, '`write` invoked once')
-      assert.ok(addRan, '`add` invoked once')
-    }
-    reset()
+  await new Promise((resolve) => {
+    env(params, function done (err) {
+      if (err) {
+        assert.fail('unexpected error when calling env with add parameters')
+        console.log(err)
+      }
+      else {
+        assert.ok(getEnvRan, '`getEnv` invoked once')
+        assert.ok(printRan, '`print` invoked once')
+        assert.ok(writeRan, '`write` invoked once')
+        assert.ok(addRan, '`add` invoked once')
+      }
+      reset()
+      resolve()
+    })
   })
 })
 
-test('Env invokes remove, prints, and writes on a valid remove request', () => {
+test('Env invokes remove, prints, and writes on a valid remove request', async () => {
   let params = { action: 'remove', env: 'production', name: 'foo', value: 'bar', inventory }
-  env(params, function done (err) {
-    if (err) {
-      assert.fail('unexpected error when calling env with remove parameters')
-      console.log(err)
-    }
-    else {
-      assert.ok(getEnvRan, '`getEnv` invoked once')
-      assert.ok(printRan, '`print` invoked once')
-      assert.ok(writeRan, '`write` invoked once')
-      assert.ok(removeRan, '`remove` invoked once')
-    }
-    reset()
+  await new Promise((resolve) => {
+    env(params, function done (err) {
+      if (err) {
+        assert.fail('unexpected error when calling env with remove parameters')
+        console.log(err)
+      }
+      else {
+        assert.ok(getEnvRan, '`getEnv` invoked once')
+        assert.ok(printRan, '`print` invoked once')
+        assert.ok(writeRan, '`write` invoked once')
+        assert.ok(removeRan, '`remove` invoked once')
+      }
+      reset()
+      resolve()
+    })
   })
 })
 
