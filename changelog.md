@@ -2,6 +2,13 @@
 
 ---
 
+## [6.0.0 - 6.0.1] 2025-11-28
+
+- node >= 22
+- native test runner
+
+---
+
 ## [5.0.0] 2024-09-24
 
 - Updated deps and node > 20
