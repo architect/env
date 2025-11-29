@@ -1,16 +1,15 @@
-let test = require('tape')
-let sinon = require('sinon')
+const { test, mock } = require('node:test')
+const assert = require('node:assert')
 let write = require('../src/_write')
 let fs = require('fs')
 let { updater } = require('@architect/utils')
 let update = updater('Env')
 let params = { appname: 'fakeappname', update }
 
-test('_write should write out env vars to a .arc-env file', t => {
-  t.plan(2)
+test('_write should write out env vars to a .arc-env file', () => {
   process.env.ARC_TESTING = true
-  let fake = sinon.fake.returns()
-  sinon.replace(fs, 'writeFileSync', fake)
+  let fake = mock.fn()
+  mock.method(fs, 'writeFileSync', fake)
   write({ envVars: [
     { env: 'testing', name: 'one', value: '1' },
     { env: 'staging', name: 'two', value: '2' },
@@ -22,8 +21,8 @@ test('_write should write out env vars to a .arc-env file', t => {
     { env: 'production', name: 'dee', value: 'dee1.23' },
     { env: 'production', name: 'eee', value: '1.23eee' },
   ], ...params } )
-  let args = fake.args
-  let file = args[0][1].split('\n').slice(1).join('\n') // Lop off the comment at the top of the block
+  let calls = fake.mock.calls
+  let file = calls[0].arguments[1].split('\n').slice(1).join('\n') // Lop off the comment at the top of the block
   let contents = `@env
 testing
   one 1
@@ -41,6 +40,7 @@ production
   eee 1.23eee
 `
   delete process.env.ARC_TESTING
-  t.ok(args[0][0].endsWith('preferences.arc'), 'wrote to a file that ends in preferences.arc')
-  t.equal(file, contents, 'All env vars were placed correctly in the preferences file')
+  assert.ok(calls[0].arguments[0].endsWith('preferences.arc'), 'wrote to a file that ends in preferences.arc')
+  assert.strictEqual(file, contents, 'All env vars were placed correctly in the preferences file')
+  mock.restoreAll()
 })

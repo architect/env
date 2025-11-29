@@ -1,5 +1,5 @@
-/* let test = require('tape')
-let sinon = require('sinon')
+/* const { test, mock } = require('node:test')
+const assert = require('node:assert')
 let AWS = require('aws-sdk')
 let aws = require('aws-sdk-mock')
 aws.setSDKInstance(AWS)
@@ -12,38 +12,35 @@ let params = { inventory: { inv: {
   aws: { region: 'us-west-2' },
 } }, update }
 
-test('getEnv should callback with error if SSM errors', t => {
-  t.plan(1)
-  let fake = sinon.fake.yields({ boom: true })
+test('getEnv should callback with error if SSM errors', () => {
+  let fake = mock.fn((query, callback) => callback({ boom: true }))
   aws.mock('SSM', 'getParametersByPath', fake)
   getEnv(params, function done (err) {
-    if (err) t.ok(err, 'got an error when SSM explodes')
-    else t.fail('no error returned when SSM explodes')
+    if (err) assert.ok(err, 'got an error when SSM explodes')
+    else assert.fail('no error returned when SSM explodes')
     aws.restore('SSM')
   })
 })
 
-test('getEnv should return massaged data from SSM', t => {
-  t.plan(1)
-  let fake = sinon.fake.yields(null, {
+test('getEnv should return massaged data from SSM', () => {
+  let fake = mock.fn((query, callback) => callback(null, {
     Parameters: [ { Name: 'ssm/fakeappname/testing/key', Value: 'value' } ]
-  })
+  }))
   aws.mock('SSM', 'getParametersByPath', fake)
   getEnv(params, function done (err, results) {
     if (err) {
-      t.fail('unexpected error callback when ssm returns proper data')
+      assert.fail('unexpected error callback when ssm returns proper data')
       console.log(err)
     }
-    else t.deepEqual(results, [ { app: 'appname', env: 'testing', name: 'key', value: 'value' } ], 'got expected format for SSM env vars')
+    else assert.deepStrictEqual(results, [ { app: 'appname', env: 'testing', name: 'key', value: 'value' } ], 'got expected format for SSM env vars')
     aws.restore('SSM')
   })
 })
 
-test('getEnv should be able to handle paginated data from SSM', t => {
-  t.plan(2)
-  let fake = sinon.fake(function (query, callback) {
+test('getEnv should be able to handle paginated data from SSM', () => {
+  let fake = mock.fn(function (query, callback) {
     // Only on the first call, provide a next token.
-    if (fake.callCount == 1) {
+    if (fake.mock.callCount() === 1) {
       callback(null, {
         Parameters: [ { Name: 'ssm/fakeappname/testing/key', Value: 'value' } ],
         NextToken: 'yep'
@@ -56,12 +53,12 @@ test('getEnv should be able to handle paginated data from SSM', t => {
   aws.mock('SSM', 'getParametersByPath', fake)
   getEnv(params, function done (err, results) {
     if (err) {
-      t.fail('unexpected error')
+      assert.fail('unexpected error')
       console.log(err)
     }
     else {
-      t.equals(fake.callCount, 2, 'SSM.getParametersByPath called twice when next token is present')
-      t.equals(results.length, 2, 'returned results from both pages')
+      assert.strictEqual(fake.mock.callCount(), 2, 'SSM.getParametersByPath called twice when next token is present')
+      assert.strictEqual(results.length, 2, 'returned results from both pages')
     }
     aws.restore('SSM')
   })
