@@ -1,5 +1,5 @@
-/* let test = require('tape')
-let sinon = require('sinon')
+/* const { test, mock } = require('node:test')
+const assert = require('node:assert')
 let AWS = require('aws-sdk')
 let aws = require('aws-sdk-mock')
 aws.setSDKInstance(AWS)
@@ -12,8 +12,7 @@ let params = { inventory: { inv: {
   aws: { region: 'us-west-2' },
 } }, update }
 
-test('Add should error on invalid environment', t => {
-  t.plan(1)
+test('Add should error on invalid environment', () => {
   let item = {
     action: 'add',
     env: 'idk',
@@ -21,13 +20,12 @@ test('Add should error on invalid environment', t => {
     value: 'bar',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.match(err.message, /Invalid environment/, 'Errored on invalid environment')
-    else t.fail('Expected invalid environment error')
+    if (err) assert.match(err.message, /Invalid environment/, 'Errored on invalid environment')
+    else assert.fail('Expected invalid environment error')
   })
 })
 
-test('Remove should error on invalid environment', t => {
-  t.plan(1)
+test('Remove should error on invalid environment', () => {
   let item = {
     action: 'remove',
     env: 'idk',
@@ -35,13 +33,12 @@ test('Remove should error on invalid environment', t => {
     value: 'bar',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.match(err.message, /Invalid environment/, 'Errored on invalid environment')
-    else t.fail('Expected invalid environment error')
+    if (err) assert.match(err.message, /Invalid environment/, 'Errored on invalid environment')
+    else assert.fail('Expected invalid environment error')
   })
 })
 
-test('Adding should callback with error on invalid name', t => {
-  t.plan(1)
+test('Adding should callback with error on invalid name', () => {
   let item = {
     action: 'add',
     env: 'testing',
@@ -49,13 +46,12 @@ test('Adding should callback with error on invalid name', t => {
     value: 'bar',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.match(err.message, /Invalid name/, 'Errored on invalid name')
-    else t.fail('Expected invalid name error')
+    if (err) assert.match(err.message, /Invalid name/, 'Errored on invalid name')
+    else assert.fail('Expected invalid name error')
   })
 })
 
-test('Remove should callback with error on invalid name', t => {
-  t.plan(1)
+test('Remove should callback with error on invalid name', () => {
   let item = {
     action: 'remove',
     env: 'testing',
@@ -63,26 +59,25 @@ test('Remove should callback with error on invalid name', t => {
     value: 'bar',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.match(err.message, /Invalid name/, 'Errored on invalid name')
-    else t.fail('Expected invalid name error')
+    if (err) assert.match(err.message, /Invalid name/, 'Errored on invalid name')
+    else assert.fail('Expected invalid name error')
   })
 })
 
-test('Add should error on missing value', t => {
-  t.plan(1)
+test('Add should error on missing value', () => {
   let item = {
     action: 'add',
     env: 'testing',
     name: 'foo',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.match(err.message, /Invalid value/, 'Errored on invalid value')
-    else t.fail('Expected invalid value error')
+    if (err) assert.match(err.message, /Invalid value/, 'Errored on invalid value')
+    else assert.fail('Expected invalid value error')
   })
 })
 
-test('Add should treat all provided values as valid', t => {
-  let fake = sinon.fake.yields()
+test('Add should treat all provided values as valid', () => {
+  let fake = mock.fn((params, callback) => callback())
   aws.mock('SSM', 'putParameter', fake)
   let valids = [
     'http://foo.com/?bar=baz',
@@ -92,7 +87,6 @@ test('Add should treat all provided values as valid', t => {
     '[${foo}]',
     '(%)^{}idk!',
   ]
-  t.plan(valids.length)
   series(valids.map(value => {
     return callback => {
       let item = {
@@ -102,21 +96,20 @@ test('Add should treat all provided values as valid', t => {
         value
       }
       addRemove({ ...params, ...item }, function done (err) {
-        if (err) t.fail(err, 'Errored on valid values')
+        if (err) assert.fail(err, 'Errored on valid values')
         else {
-          t.pass('No error returned')
+          assert.ok(true, 'No error returned')
           callback()
         }
       })
     }
   }))
-  sinon.restore()
+  mock.restoreAll()
   aws.restore('SSM')
 })
 
-test('Adding should callback with error if SSM errors', t => {
-  t.plan(1)
-  let fake = sinon.fake.yields({ boom: true })
+test('Adding should callback with error if SSM errors', () => {
+  let fake = mock.fn((params, callback) => callback({ boom: true }))
   aws.mock('SSM', 'putParameter', fake)
   let item = {
     action: 'add',
@@ -125,15 +118,14 @@ test('Adding should callback with error if SSM errors', t => {
     value: 'bar',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.ok(err, 'Errored on SSM issue')
-    else t.fail('Expected SSM error')
+    if (err) assert.ok(err, 'Errored on SSM issue')
+    else assert.fail('Expected SSM error')
   })
   aws.restore('SSM')
 })
 
-test('Remove should callback with error if SSM errors', t => {
-  t.plan(1)
-  let fake = sinon.fake.yields({ boom: true })
+test('Remove should callback with error if SSM errors', () => {
+  let fake = mock.fn((params, callback) => callback({ boom: true }))
   aws.mock('SSM', 'deleteParameter', fake)
   let item = {
     action: 'remove',
@@ -141,15 +133,14 @@ test('Remove should callback with error if SSM errors', t => {
     name: 'foo',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.ok(err, 'Errored on SSM issue')
-    else t.fail('Expected SSM error')
+    if (err) assert.ok(err, 'Errored on SSM issue')
+    else assert.fail('Expected SSM error')
   })
   aws.restore('SSM')
 })
 
-test('Remove should not callback with error if parameter is not found', t => {
-  t.plan(1)
-  let fake = sinon.fake.yields({ code: 'ParameterNotFound' })
+test('Remove should not callback with error if parameter is not found', () => {
+  let fake = mock.fn((params, callback) => callback({ code: 'ParameterNotFound' }))
   aws.mock('SSM', 'deleteParameter', fake)
   let item = {
     action: 'remove',
@@ -157,8 +148,8 @@ test('Remove should not callback with error if parameter is not found', t => {
     name: 'foo',
   }
   addRemove({ ...params, ...item }, function done (err) {
-    if (err) t.fail('Should not have errored')
-    else t.pass(`No error returned`)
+    if (err) assert.fail('Should not have errored')
+    else assert.ok(true, 'No error returned')
   })
   aws.restore('SSM')
 })
